@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const fs = require('fs');
-const Path = require('path');
+const fs = require("fs");
+const Path = require("path");
 
-const getSettingsObject = (settings) => {
+const getSettingsObject = settings => {
   try {
     return JSON.parse(settings);
   } catch (e) {
@@ -11,9 +11,9 @@ const getSettingsObject = (settings) => {
   }
 };
 
-const getSettingsFromFile = (settingsPath) => {
+const getSettingsFromFile = settingsPath => {
   if (fs.existsSync(settingsPath)) {
-    const file = fs.readFileSync(settingsPath, 'utf8');
+    const file = fs.readFileSync(settingsPath, "utf8");
     try {
       return JSON.parse(file);
     } catch (e) {
@@ -39,7 +39,7 @@ const fetchConfig = () => {
     }
   }
 
-  throw new Error('Missing configuration');
+  throw new Error("Missing configuration");
 };
 
 module.exports = fetchConfig();
