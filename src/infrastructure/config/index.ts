@@ -42,4 +42,4 @@ const fetchConfig = () => {
   throw new Error("Missing configuration");
 };
 
-module.exports = fetchConfig();
+export default fetchConfig();
