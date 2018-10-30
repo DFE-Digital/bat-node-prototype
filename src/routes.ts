@@ -19,4 +19,4 @@ routes.get("/sitedata", (req,res) => {
   })
 });
 
-module.exports = routes;
+export default routes;
