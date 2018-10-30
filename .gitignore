@@ -1,7 +1,5 @@
 # TS parts
-/src/entity/**/*.js
-/src/migrations/**/*.js
-/src/routes.js
+/src/**/*.js
 
 # Logs
 logs
