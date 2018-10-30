@@ -9,6 +9,7 @@ const helmet = require("helmet");
 const sanitization = require("login.dfe.sanitization");
 const healthCheck = require("login.dfe.healthcheck");
 const { getErrorHandler } = require("login.dfe.express-error-handling");
+const routes = require("./routes");
 
 const app = express();
 app.use(
@@ -44,6 +45,8 @@ app.use(
     logger
   })
 );
+
+app.use("/", routes);
 
 if (config.hostingEnvironment.env === "dev") {
   app.proxy = true;
