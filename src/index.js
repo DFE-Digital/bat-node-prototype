@@ -9,6 +9,7 @@ const helmet = require("helmet");
 const sanitization = require("login.dfe.sanitization");
 const healthCheck = require("login.dfe.healthcheck");
 const { getErrorHandler } = require("login.dfe.express-error-handling");
+const routes = require("./routes");
 
 const app = express();
 app.use(
@@ -45,6 +46,8 @@ app.use(
   })
 );
 
+app.use("/", routes);
+
 if (config.hostingEnvironment.env === "dev") {
   app.proxy = true;
 
@@ -57,11 +60,7 @@ if (config.hostingEnvironment.env === "dev") {
   const server = https.createServer(options, app);
 
   server.listen(config.hostingEnvironment.port, () => {
-    logger.info(
-      `Dev server listening on https://${config.hostingEnvironment.host}:${
-        config.hostingEnvironment.port
-      } with config:\n${JSON.stringify(config)}`
-    );
+    logger.info(`Dev server listening on https://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`);
   });
 } else {
   app.listen(process.env.PORT, () => {

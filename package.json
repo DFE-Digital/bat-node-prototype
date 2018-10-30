@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "settings='./config/settings.json' node src/index.js",
+    "dev": "settings='./config/settings.json' nodemon src/index.js",
     "test": "./node_modules/.bin/jest"
   },
   "engines": {
@@ -31,6 +31,7 @@
     "login.dfe.express-error-handling": "git+https://github.com/DFE-Digital/login.dfe.express-error-handling.git#v1.2",
     "login.dfe.healthcheck": "git+https://github.com/DFE-Digital/login.dfe.healthcheck.git#v1.4.3",
     "login.dfe.sanitization": "git+https://github.com/DFE-Digital/login.dfe.sanitization.git#v1.0",
+    "nodemon": "^1.18.5",
     "winston": "^2.4.0"
   },
   "devDependencies": {
