@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "settings='./config/settings.json' nodemon src/index.js",
+    "dev": "settings='./config/settings.json' concurrently --kill-others \"tsc -w\" \"nodemon src/index.js\"",
+    "devwin": "set settings=config/settings.json&& concurrently --kill-others \"tsc -w\" \"nodemon src/index.js\"",
     "test": "./node_modules/.bin/jest"
   },
   "engines": {
@@ -32,9 +33,12 @@
     "login.dfe.healthcheck": "git+https://github.com/DFE-Digital/login.dfe.healthcheck.git#v1.4.3",
     "login.dfe.sanitization": "git+https://github.com/DFE-Digital/login.dfe.sanitization.git#v1.0",
     "nodemon": "^1.18.5",
+    "pg": "^7.6.0",
+    "typeorm": "^0.2.8",
     "winston": "^2.4.0"
   },
   "devDependencies": {
+    "concurrently": "^4.0.1",
     "eslint": "^4.4.1",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
