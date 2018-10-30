@@ -1,0 +1,14 @@
+{
+    "type": "postgres",
+    "name": "default",
+    "host": "localhost",
+    "username": "postgres",
+    "password": "",
+    "database": "bat_node_prototype",
+    "entities": ["src/entity/*.js"],
+    "migrationsTableName": "migration_table",
+    "migrations": ["src/migrations/*.js"],
+    "cli": {
+        "migrationsDir": "src/migrations/"
+    }
+}
