@@ -35,7 +35,7 @@ createConnection().then(c =>
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(sanitization());
   app.set("view engine", "ejs");
-  app.set("views", path.resolve(__dirname, "app"));
+  app.set("views", path.resolve("app"));
   app.use(expressLayouts);
   app.set("layout", "layouts/layout");
 

@@ -3,7 +3,6 @@ import Site from "./entity/site";
 import { createConnection } from "typeorm";
 
 const routes = Router();
-console.log("Site: " + JSON.stringify(Site));
 
 
 routes.get("/", (req, res) => {
