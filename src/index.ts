@@ -3,7 +3,7 @@ import { createConnection } from "typeorm";
 (async () => {
   const express = require("express");
   const bodyParser = require("body-parser");
-  const expressLayouts = require("express-ejs-layouts");
+  const nunjucks = require("nunjucks");
   const logger = require("./infrastructure/logger");
   const https = require("https");
   const path = require("path");
@@ -32,12 +32,18 @@ import { createConnection } from "typeorm";
     })
   );
 
+  const appViews = path.join(__dirname, "views");
+
+  nunjucks.configure(appViews, {
+    autoescape: true,
+    express: app,
+    noCache: true,
+    watch: true
+  });
+
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(sanitization());
-  app.set("view engine", "ejs");
-  app.set("views", path.resolve(__dirname, "app"));
-  app.use(expressLayouts);
-  app.set("layout", "layouts/layout");
+  app.set("view engine", "html");
 
   app.use(
     "/healthcheck",
