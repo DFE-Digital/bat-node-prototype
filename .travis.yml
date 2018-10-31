@@ -1,14 +1,14 @@
 language: node_js
-node_js: 10
+node_js: 8
 env:
   global:
     secure: eBuRpIyx4FdNVKvwGSxusaADKhPH7RW/U0EI6zcXOb18QuEM1ezIXmZUF4cJUb4kd1ORJl9/64ZZBjjGPgUw8WDLQ1te76eb9jyfFDNvnNgKjEgSTHBnZbIQDQ1ByiSbj0t5DWYIszfka5eoslEn7KaMaeV+eepGCkuM/j4m9AgSumWD/8k2WrOvt18FnVvWq3gT93eSJldcno8kohLItP98z2mTM2dKDYg1Fmb6LwVAxBbnYD+rz4fFPkq2VfQ8o5N4ZEioOCgJa33I/ys6BZVO3rtYYnnfPc2cK6oELkW6loSJe22//nkCaBEXK9gJWfXOS9IjKDRDCxk38bM0Ec4hRUkXqeNqQiE8PLE1NwivFU8totomtOeOd+sn2oyOPx8Krw4MaECBZfCJqfDk0uHevTrTakatEw3mAw7l2mrnJrO5jHwg14tmRtv7pUeJu/B3tEEbTrrPnPzDzQDMnNjmDMpSgnNE/dogT7k9jseiDnuJD4Z6NrPJv15RgqJhyyqyAIDn5nuHHrrUAcRgjGVp7J43Ga9c7dbsAlCK7zda57B3iV2dFG9et0R5aaUMpmlF82WOj2n7CNqycQjiVzXHdyeSDQN7uz+MLtGxrOe2RLBCwE51T0gNjPkuQgNv9rVX1KnN8gfu7Er12D9tZF+DYcvRx9B+gsX07qVpwhM=
 before_script:
-- npm install
-- node_modules/.bin/tsc
+  - npm install
+  - node_modules/.bin/tsc
 script:
-- npm run test
+  - npm run test
 deploy:
-- provider: script
-  script: git push --force https://govuk-dfe-bat-deployment-user:$AZURE_WA_PASSWORD@bat-node-prototype-app.scm.azurewebsites.net:443/bat-node-prototype-app.git HEAD:refs/heads/master
-  on: master
+  - provider: script
+    script: git push --force https://govuk-dfe-bat-deployment-user:$AZURE_WA_PASSWORD@bat-node-prototype-app.scm.azurewebsites.net:443/bat-node-prototype-app.git HEAD:refs/heads/master
+    on: master
