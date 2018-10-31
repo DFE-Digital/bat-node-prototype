@@ -1,6 +1,6 @@
 import { createConnection } from "typeorm";
 
-(function() {
+(async () => {
   const express = require("express");
   const bodyParser = require("body-parser");
   const expressLayouts = require("express-ejs-layouts");
@@ -14,65 +14,70 @@ import { createConnection } from "typeorm";
   const { getErrorHandler } = require("login.dfe.express-error-handling");
   const routes = require("./routes");
 
-  createConnection().then(c => 
-    // run migrations on start up; only boot up if migrations succeed!
-    c.runMigrations({transaction: true})
-  ).then(() => {
-    const app = express();
-    app.use(
-      helmet({
-        noCache: true,
-        frameguard: {
-          action: "deny"
-        }
-      })
-    );
+  try {
+    const dbConnection = await createConnection();
+    // Run migrations on start up; only boot up if migrations succeed!
+    dbConnection.runMigrations({ transaction: true });
+  } catch (err) {
+    throw new Error(`Could not boot application, failed to connect to database, error: ${err}`);
+  }
 
-    if (config.hostingEnvironment.env !== "dev") {
-      app.set("trust proxy", 1);
-    }
+  const app = express();
+  app.use(
+    helmet({
+      noCache: true,
+      frameguard: {
+        action: "deny"
+      }
+    })
+  );
 
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(sanitization());
-    app.set("view engine", "ejs");
-    app.set("views", path.resolve(__dirname, "app"));
-    app.use(expressLayouts);
-    app.set("layout", "layouts/layout");
+  if (config.hostingEnvironment.env !== "dev") {
+    app.set("trust proxy", 1);
+  }
 
-    app.use(
-      "/healthcheck",
-      healthCheck({
-        config
-      })
-    );
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(sanitization());
+  app.set("view engine", "ejs");
+  app.set("views", path.resolve(__dirname, "app"));
+  app.use(expressLayouts);
+  app.set("layout", "layouts/layout");
 
-    // Error handing
-    app.use(
-      getErrorHandler({
-        logger
-      })
-    );
+  app.use(
+    "/healthcheck",
+    healthCheck({
+      config
+    })
+  );
 
-    app.use("/", routes);
+  // Error handing
+  app.use(
+    getErrorHandler({
+      logger
+    })
+  );
 
-    if (config.hostingEnvironment.env === "dev") {
-      app.proxy = true;
+  app.use("/", routes);
 
-      const options = {
-        key: config.hostingEnvironment.sslKey,
-        cert: config.hostingEnvironment.sslCert,
-        requestCert: false,
-        rejectUnauthorized: false
-      };
-      const server = https.createServer(options, app);
+  if (config.hostingEnvironment.env === "dev") {
+    app.proxy = true;
 
-      server.listen(config.hostingEnvironment.port, () => {
-        logger.info(`Dev server listening on https://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`);
-      });
-    } else {
-      app.listen(process.env.PORT, () => {
-        logger.info(`Server listening on http://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`);
-      });
-    }
-  });
+    const options = {
+      key: config.hostingEnvironment.sslKey,
+      cert: config.hostingEnvironment.sslCert,
+      requestCert: false,
+      rejectUnauthorized: false
+    };
+    const server = https.createServer(options, app);
+
+    server.listen(config.hostingEnvironment.port, () => {
+      logger.info(
+        `Dev server listening on https://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`
+      );
+    });
+  } else {
+    app.listen(process.env.PORT, () => {
+      logger.info(`Server listening on http://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`);
+    });
+  }
 })();
