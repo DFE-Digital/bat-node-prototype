@@ -1,6 +1,8 @@
 import "reflect-metadata"; // this shim is required
-import { createExpressServer } from "routing-controllers";
+import { useExpressServer } from "routing-controllers";
 import connection from "./connection";
+import express = require("express");
+import helmet = require("helmet");
 
 (async () => {
   const bodyParser = require("body-parser");
@@ -22,20 +24,27 @@ import connection from "./connection";
   });
 
   dbMigrationPromise.then(() => {
-    const app = createExpressServer({
-      controllers: [__dirname + "/controllers/*.js"]
-    });
-  const appViews = path.join(__dirname, "views");
+    var app = express();
+    const appViews = path.join(__dirname, "views");
 
-  nunjucks.configure(appViews, {
-    autoescape: true,
-    express: app,
-    noCache: true,
-    watch: true
-  });
+    nunjucks.configure(appViews, {
+      autoescape: true,
+      express: app,
+      noCache: true,
+      watch: true
+    });
 
     app.use(bodyParser.urlencoded({ extended: true }));
-  app.set("view engine", "html");
+    app.set("view engine", "html");
+
+    app.use(
+      helmet({
+        noCache: true,
+        frameguard: {
+          action: "deny"
+        }
+      })
+    );
 
     app.use(
       "/healthcheck",
@@ -51,9 +60,11 @@ import connection from "./connection";
       })
     );
 
-    if (config.hostingEnvironment.env === "dev") {
-      app.proxy = true;
+    useExpressServer(app, {
+      controllers: [__dirname + "/controllers/*.js"]
+    });
 
+    if (config.hostingEnvironment.env === "dev") {
       const options = {
         key: config.hostingEnvironment.sslKey,
         cert: config.hostingEnvironment.sslCert,
