@@ -1,9 +1,11 @@
-import { createConnection } from "typeorm";
+import "reflect-metadata"; // this shim is required
+import {createExpressServer} from "routing-controllers";
+import HomeController from "./controllers/homeController";
+import SitesController from "./controllers/sitesController";
+import connection from "./connection";
 
 (function() {
-  const express = require("express");
   const bodyParser = require("body-parser");
-  const expressLayouts = require("express-ejs-layouts");
   const logger = require("./infrastructure/logger");
   const https = require("https");
   const path = require("path");
@@ -12,13 +14,16 @@ import { createConnection } from "typeorm";
   const sanitization = require("login.dfe.sanitization");
   const healthCheck = require("login.dfe.healthcheck");
   const { getErrorHandler } = require("login.dfe.express-error-handling");
-  const routes = require("./routes");
-
-  createConnection().then(c => 
+  
+  connection.then(c => 
     // run migrations on start up; only boot up if migrations succeed!
     c.runMigrations({transaction: true})
   ).then(() => {
-    const app = express();
+
+    const app = createExpressServer({
+      controllers: [__dirname + "/controllers/*.js"]
+    });
+
     app.use(
       helmet({
         noCache: true,
@@ -36,7 +41,6 @@ import { createConnection } from "typeorm";
     app.use(sanitization());
     app.set("view engine", "ejs");
     app.set("views", path.resolve(__dirname, "app"));
-    app.use(expressLayouts);
     app.set("layout", "layouts/layout");
 
     app.use(
@@ -52,8 +56,6 @@ import { createConnection } from "typeorm";
         logger
       })
     );
-
-    app.use("/", routes);
 
     if (config.hostingEnvironment.env === "dev") {
       app.proxy = true;
