@@ -4,6 +4,7 @@ import connection from "./connection";
 
 (async () => {
   const bodyParser = require("body-parser");
+  const nunjucks = require("nunjucks");
   const logger = require("./infrastructure/logger");
   const https = require("https");
   const path = require("path");
@@ -24,11 +25,17 @@ import connection from "./connection";
     const app = createExpressServer({
       controllers: [__dirname + "/controllers/*.js"]
     });
+  const appViews = path.join(__dirname, "views");
+
+  nunjucks.configure(appViews, {
+    autoescape: true,
+    express: app,
+    noCache: true,
+    watch: true
+  });
 
     app.use(bodyParser.urlencoded({ extended: true }));
-    app.set("view engine", "ejs");
-    app.set("views", path.resolve(__dirname, "app"));
-    app.set("layout", "layouts/layout");
+  app.set("view engine", "html");
 
     app.use(
       "/healthcheck",
