@@ -1,10 +1,11 @@
 import "reflect-metadata"; // this shim is required
 import { useExpressServer } from "routing-controllers";
 import connection from "./connection";
-import express = require("express");
-import helmet = require("helmet");
 
 (async () => {
+  const express = require("express");
+  const helmet = require("helmet");
+
   const bodyParser = require("body-parser");
   const nunjucks = require("nunjucks");
   const logger = require("./infrastructure/logger");
@@ -34,7 +35,11 @@ import helmet = require("helmet");
       watch: true
     });
 
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(
+      bodyParser.urlencoded({
+        extended: true
+      })
+    );
     app.set("view engine", "html");
 
     app.use(
@@ -46,19 +51,10 @@ import helmet = require("helmet");
       })
     );
 
-    app.use(
-      "/healthcheck",
-      healthCheck({
-        config
-      })
-    );
+    app.use("/healthcheck", healthCheck({ config }));
 
     // Error handing
-    app.use(
-      getErrorHandler({
-        logger
-      })
-    );
+    app.use(getErrorHandler({ logger }));
 
     useExpressServer(app, {
       controllers: [__dirname + "/controllers/*.js"]

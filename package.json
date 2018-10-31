@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/DFE-Digital/bat-node-prototype#readme",
   "dependencies": {
-    "@types/express-ejs-layouts": "^2.3.1",
     "@types/node": "^10.12.1",
     "@types/nunjucks": "^3.1.0",
     "express": "^4.16.4",
