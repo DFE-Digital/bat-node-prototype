@@ -1,0 +1,10 @@
+{
+  "hostingEnvironment": {
+    "useDevViews": false,
+    "env": "prod",
+    "host": "localhost"
+  },
+  "loggerSettings": {
+    "applicationName": "BAT node prototype"
+  }
+}

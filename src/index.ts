@@ -71,19 +71,14 @@ import connection from "./connection";
 
       server.listen(config.hostingEnvironment.port, () => {
         logger.info(
-          `Dev server listening on https://${config.hostingEnvironment.host}:${
-            config.hostingEnvironment.port
-          }`
+          `Dev server listening on https://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`
         );
       });
     } else {
       app.set("trust proxy", 1);
-      app.listen(process.env.PORT, () => {
-        logger.info(
-          `Server listening on http://${config.hostingEnvironment.host}:${
-            config.hostingEnvironment.port
-          }`
-        );
+      var port = process.env.PORT || 3000;
+      app.listen(port, () => {
+        logger.info(`Server listening on http://${config.hostingEnvironment.host}:${port}`);
       });
     }
   });
