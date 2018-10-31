@@ -10,5 +10,5 @@ script:
 - npm run test
 deploy:
 - provider: script
-  script: git push https://govuk-dfe-bat-deployment-user:$AZURE_WA_PASSWORD@bat-node-prototype-app.scm.azurewebsites.net:443/bat-node-prototype-app.git HEAD:refs/heads/master
+  script: git push --force https://govuk-dfe-bat-deployment-user:$AZURE_WA_PASSWORD@bat-node-prototype-app.scm.azurewebsites.net:443/bat-node-prototype-app.git HEAD:refs/heads/master
   on: master
