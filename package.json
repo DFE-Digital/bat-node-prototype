@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "settings='./config/settings.json' concurrently --kill-others \"tsc -w\" \"nodemon src/index.js\"",
-    "devwin": "set settings=config/settings.json&& concurrently --kill-others \"tsc -w\" \"nodemon src/index.js\"",
+    "dev": "settings='./config/settings.json' concurrently --kill-others \"tsc -w\" \"nodemon dist/index.js\"",
+    "devwin": "set settings=config/settings.json&& concurrently --kill-others \"tsc -w\" \"nodemon dist/index.js\"",
     "postinstall": "tsc",
-    "start": "settings='./config/settings.production.json' node src/index.js",
+    "start": "settings='./config/settings.production.json' node dist/index.js",
     "test": "./node_modules/.bin/jest"
   },
   "engines": {
