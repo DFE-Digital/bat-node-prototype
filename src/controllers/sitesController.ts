@@ -1,13 +1,29 @@
-import { Get, JsonController } from "routing-controllers";
+import { Get, JsonController, QueryParam } from "routing-controllers";
 import Site from "./../entity/site";
 import connection from "./../connection";
+import { connect } from "net";
 
 @JsonController()
 export default class SitesController {
   @Get("/sitedata")
-  showAll() {
-    return connection.then(connection => {
-      return connection.getRepository(Site).find();
-    });
+  async showAll(): Promise<Site[]> {
+    const repository = (await connection).getRepository(Site);
+    return await repository.find();
+  }
+
+  @Get("/sitedata/search")
+  async search(@QueryParam("q") query: string): Promise<Site[]> {
+    const repository = (await connection).getRepository(Site);
+
+    let matches = await repository
+      .createQueryBuilder("site")
+      .where(
+        `(to_tsvector('english', site.location_name) @@ to_tsquery('english', quote_literal(:query) || ':*')) IS TRUE`
+      )
+      .setParameters({ query: query })
+      .limit(5)
+      .getMany();
+
+    return matches;
   }
 }

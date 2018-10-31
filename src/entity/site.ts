@@ -1,31 +1,31 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 @Entity()
 export default class Site {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({name: "provider_id"})
-    providerId: number;
+  @Column({ name: "provider_id" })
+  providerId: number;
 
-    @Column({name: "location_name"})
-    locationName: string;
+  @Column({ name: "location_name" })
+  locationName: string;
 
-    @Column()
-    address1: string;
-    
-    @Column()
-    address2: string;
-    
-    @Column()
-    address3: string;
-    
-    @Column()
-    address4: string;
+  @Column()
+  address1: string;
 
-    @Column()
-    postcode: string;
+  @Column()
+  address2: string;
 
-    @Column({length: 1})
-    code: string;
+  @Column()
+  address3: string;
+
+  @Column()
+  address4: string;
+
+  @Column()
+  postcode: string;
+
+  @Column({ length: 1 })
+  code: string;
 }
