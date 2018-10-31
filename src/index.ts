@@ -30,7 +30,7 @@ appInsights.start();
 
   dbMigrationPromise.then(() => {
     var app = express();
-    const appViews = path.join(__dirname, "views");
+    const appViews = path.join(__dirname, "../src/views");
 
     nunjucks.configure(appViews, {
       autoescape: true,
