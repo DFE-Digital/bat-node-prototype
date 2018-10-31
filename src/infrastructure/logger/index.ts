@@ -23,9 +23,12 @@ const loggerConfig = {
 
 loggerConfig.transports.push(new winston.transports.Console({ level: logLevel, colorize: true }));
 
-const sequelizeTransport = WinstonSequelizeTransport(config);
-if (sequelizeTransport) {
-  loggerConfig.transports.push(sequelizeTransport);
+if (config && config.loggerSettings && config.loggerSettings.auditDb)
+{
+  const sequelizeTransport = WinstonSequelizeTransport(config);
+  if (sequelizeTransport) {
+    loggerConfig.transports.push(sequelizeTransport);
+  }
 }
 
 const logger = new winston.Logger(loggerConfig);
