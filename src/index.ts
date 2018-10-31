@@ -32,10 +32,6 @@ import { createConnection } from "typeorm";
     })
   );
 
-  if (config.hostingEnvironment.env !== "dev") {
-    app.set("trust proxy", 1);
-  }
-
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(sanitization());
   app.set("view engine", "ejs");
@@ -76,6 +72,7 @@ import { createConnection } from "typeorm";
       );
     });
   } else {
+    app.set("trust proxy", 1);
     app.listen(process.env.PORT, () => {
       logger.info(`Server listening on http://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`);
     });
