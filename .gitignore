@@ -1,3 +1,6 @@
+# Compiled js and sourcemaps
+dist
+
 # TS parts
 /src/**/*.js
 /src/**/*.js.map

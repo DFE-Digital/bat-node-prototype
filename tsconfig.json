@@ -3,7 +3,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "lib": ["es2015"],
-    "sourceMap": true
+    "sourceMap": true,
+    "outDir": "dist"
   },
   "include": ["src/**/*.ts"]
 }
