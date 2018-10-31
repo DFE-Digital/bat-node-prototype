@@ -1,10 +1,8 @@
 import "reflect-metadata"; // this shim is required
 import {createExpressServer} from "routing-controllers";
-import HomeController from "./controllers/homeController";
-import SitesController from "./controllers/sitesController";
 import connection from "./connection";
 
-(function() {
+(async () => {
   const bodyParser = require("body-parser");
   const logger = require("./infrastructure/logger");
   const https = require("https");
@@ -15,11 +13,16 @@ import connection from "./connection";
   const healthCheck = require("login.dfe.healthcheck");
   const { getErrorHandler } = require("login.dfe.express-error-handling");
   
-  connection.then(c => 
-    // run migrations on start up; only boot up if migrations succeed!
-    c.runMigrations({transaction: true})
-  ).then(() => {
+  var dbMigrationPromise = connection.then(c => 
+    // Run migrations on start up; only boot up if migrations succeed!
+    c.runMigrations({ transaction: true })
+  );
 
+  dbMigrationPromise.catch(err => {
+    throw new Error("Could not migrate database");
+  });
+
+  dbMigrationPromise.then(() => {
     const app = createExpressServer({
       controllers: [__dirname + "/controllers/*.js"]
     });
@@ -32,10 +35,6 @@ import connection from "./connection";
         }
       })
     );
-
-    if (config.hostingEnvironment.env !== "dev") {
-      app.set("trust proxy", 1);
-    }
 
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(sanitization());
@@ -69,9 +68,12 @@ import connection from "./connection";
       const server = https.createServer(options, app);
 
       server.listen(config.hostingEnvironment.port, () => {
-        logger.info(`Dev server listening on https://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`);
+        logger.info(
+          `Dev server listening on https://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`
+        );
       });
     } else {
+      app.set("trust proxy", 1);
       app.listen(process.env.PORT, () => {
         logger.info(`Server listening on http://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`);
       });
