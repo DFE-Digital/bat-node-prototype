@@ -1,5 +1,5 @@
 import "reflect-metadata"; // this shim is required
-import {createExpressServer} from "routing-controllers";
+import { createExpressServer } from "routing-controllers";
 import connection from "./connection";
 
 (async () => {
@@ -8,8 +8,6 @@ import connection from "./connection";
   const https = require("https");
   const path = require("path");
   const config = require("./infrastructure/config");
-  const helmet = require("helmet");
-  const sanitization = require("login.dfe.sanitization");
   const healthCheck = require("login.dfe.healthcheck");
   const { getErrorHandler } = require("login.dfe.express-error-handling");
   
@@ -27,17 +25,7 @@ import connection from "./connection";
       controllers: [__dirname + "/controllers/*.js"]
     });
 
-    app.use(
-      helmet({
-        noCache: true,
-        frameguard: {
-          action: "deny"
-        }
-      })
-    );
-
     app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(sanitization());
     app.set("view engine", "ejs");
     app.set("views", path.resolve(__dirname, "app"));
     app.set("layout", "layouts/layout");
