@@ -10,8 +10,8 @@ import connection from "./connection";
   const config = require("./infrastructure/config");
   const healthCheck = require("login.dfe.healthcheck");
   const { getErrorHandler } = require("login.dfe.express-error-handling");
-  
-  var dbMigrationPromise = connection.then(c => 
+
+  var dbMigrationPromise = connection.then(c =>
     // Run migrations on start up; only boot up if migrations succeed!
     c.runMigrations({ transaction: true })
   );
@@ -57,13 +57,19 @@ import connection from "./connection";
 
       server.listen(config.hostingEnvironment.port, () => {
         logger.info(
-          `Dev server listening on https://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`
+          `Dev server listening on https://${config.hostingEnvironment.host}:${
+            config.hostingEnvironment.port
+          }`
         );
       });
     } else {
       app.set("trust proxy", 1);
       app.listen(process.env.PORT, () => {
-        logger.info(`Server listening on http://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}`);
+        logger.info(
+          `Server listening on http://${config.hostingEnvironment.host}:${
+            config.hostingEnvironment.port
+          }`
+        );
       });
     }
   });
