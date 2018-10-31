@@ -2,6 +2,10 @@ import "reflect-metadata"; // this shim is required
 import { useExpressServer } from "routing-controllers";
 import connection from "./connection";
 
+const appInsights = require("applicationinsights");
+appInsights.setup("6564b30c-474d-41d0-ac34-cfe11c611a04");
+appInsights.start();
+
 (async () => {
   const express = require("express");
   const helmet = require("helmet");

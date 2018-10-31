@@ -26,6 +26,7 @@
   "dependencies": {
     "@types/node": "^10.12.1",
     "@types/nunjucks": "^3.1.0",
+    "applicationinsights": "^1.0.6",
     "express": "^4.16.4",
     "helmet": "^3.9.0",
     "lodash": "^4.17.10",
