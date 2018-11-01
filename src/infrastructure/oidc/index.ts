@@ -17,16 +17,14 @@ const getPassportStrategy = async logger => {
         scope: "openid profile email offline_access"
       }
     },
-    (tokenset, authUserInfo, done) => {
-      client
-        .userinfo(tokenset.access_token)
-        .then(userInfo => {
-          done(null, userInfo);
-        })
-        .catch(err => {
-          logger.error(err);
-          done(err);
-        });
+    async (tokenset, authUserInfo, done) => {
+      try {
+        const userInfo = await client.userinfo(tokenset.access_token);
+        done(null, userInfo);
+      } catch (err) {
+        logger.error(err);
+        done(err);
+      }
     }
   );
 };
