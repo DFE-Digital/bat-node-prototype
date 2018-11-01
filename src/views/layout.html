@@ -23,7 +23,7 @@
 {% from "warning-text/macro.njk"  import govukWarningText %}
 
 {% block head %}
-  <script src="/application.css"></script>
+  <link rel="stylesheet" type="text/css" href="/public/application.css">
 {% endblock %}
 
 {% block header %}
@@ -37,6 +37,6 @@
 
 {% block bodyEnd %}
   {% block scripts %}
-    <script src="/application.js"></script>
+    {# <script src="/public/application.js"></script> #}
   {% endblock %}
 {% endblock %}
