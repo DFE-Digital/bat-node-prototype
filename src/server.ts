@@ -43,11 +43,8 @@ import path = require("path");
   app.set("view engine", "html");
 
   // Middleware to serve static assets
-  app.use("/dist", express.static(path.join(__dirname, "/dist")));
-  app.use("/assets", express.static(path.join(__dirname, "node_modules", "govuk-frontend", "assets")));
-
-  // Serve govuk-frontend in /public
-  app.use("../node_modules/govuk-frontend", express.static(path.join(__dirname, "../node_modules/govuk-frontend")));
+  app.use("/dist/styles", express.static(path.join(__dirname, "styles")));
+  app.use("/assets", express.static(path.resolve(__dirname, "../node_modules/govuk-frontend/assets")));
 
   app.use(
     helmet({
