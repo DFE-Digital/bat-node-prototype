@@ -68,17 +68,16 @@
             </p>
           </div>
         </div>
+        {% if user %}
         <div class="account-information" role="navigation">
-          <p class="signed-in-as"><span class="vh">You are signed in as</span>
-            TODO: Add name
-          </p>
+          <p class="signed-in-as"><span class="vh">You are signed in as</span> {{ displayName }}</p>
           <nav id="user-nav">
             <ul role="menubar">
-              <li><a href="/profile" role="menuitem">Profile</a></li>
-              <li><a href="/signout" role="menuitem">Sign out</a></li>
+              <li><a href="/auth/logout" role="menuitem">Sign out</a></li>
             </ul>
           </nav>
         </div>
+        {% endif %}
       </div>
     </div>
 

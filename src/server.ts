@@ -9,6 +9,9 @@ import bodyParser = require("body-parser");
 import nunjucks = require("nunjucks");
 import https = require("https");
 import path = require("path");
+import session = require("express-session");
+import passport = require("passport");
+import { getPassportStrategy } from "./infrastructure/oidc";
 
 (async () => {
   const conn = await connection;
@@ -44,6 +47,33 @@ import path = require("path");
       }
     })
   );
+
+  passport.use("oidc", await getPassportStrategy(console));
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+  passport.deserializeUser((user, done) => {
+    done(null, user);
+  });
+  app.use(
+    session({
+      resave: true,
+      saveUninitialized: true,
+      secret: process.env.BAT_NODE_SESSION_SECRET
+    })
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // TODO: Figure out how to translate this into routing-controller.
+  app.get("/auth/login", passport.authenticate("oidc"));
+  app.get("/auth/cb", passport.authenticate("oidc", { successRedirect: "/", failureRedirect: "/auth/login" }));
+  app.get("/auth/logout", (req, res) => {
+    req.logout();
+    req.session.destroy(() => {
+      res.redirect("/");
+    });
+  });
 
   useExpressServer(app, {
     controllers: [__dirname + "/controllers/*.js"]

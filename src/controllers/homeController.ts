@@ -1,10 +1,14 @@
-import { Controller, Get, Render } from "routing-controllers";
+import { Controller, Get, Render, Req } from "routing-controllers";
 
 @Controller()
 export default class HomeController {
   @Get("/")
   @Render("index")
-  getAll() {
-    return;
+  getAll(@Req() req) {
+    const user = req.user;
+    return {
+      displayName: user ? `${user["given_name"]} ${user["family_name"]}` : "",
+      user
+    };
   }
 }

@@ -1,9 +1,22 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor voluptates sapiente quidem, tempora aspernatur
-    placeat aliquam soluta fugiat officiis consectetur nihil exercitationem facere laudantium magni iste eum, maiores,
-    voluptate accusamus
-  </p>
+{% if user %}
+<p>
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor voluptates sapiente quidem, tempora aspernatur
+  placeat aliquam soluta fugiat officiis consectetur nihil exercitationem facere laudantium magni iste eum, maiores,
+  voluptate accusamus
+</p>
+
+<p>
+  Access token:
+  <code style="word-break: break-all">{{ user.access_token }}</code>
+</p>
+{% endif %}
+
+{% if not user %}
+<p>
+  <a href="/auth/login">Sign in using DFE Signin</a>
+</p>
+{% endif %}
 {% endblock %}
