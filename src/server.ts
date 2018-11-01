@@ -95,18 +95,12 @@ import unauthorisedRequestHandler from "./infrastructure/unauthorisedRequestHand
 
   app.use(unauthorisedRequestHandler);
 
-  if (process.env.BAT_NODE_ENVIRONMENT === "dev") {
-    const options = {
-      key: process.env.BAT_NODE_SSLKEY,
-      cert: process.env.BAT_NODE_SSLCERT,
-      requestCert: false,
-      rejectUnauthorized: false
-    };
-    const server = https.createServer(options, app);
-    server.listen(process.env.BAT_NODE_PORT);
-  } else {
-    app.set("trust proxy", 1);
-    var port = process.env.PORT || 44364;
-    app.listen(port);
-  }
+  const options = {
+    key: process.env.BAT_NODE_SSLKEY,
+    cert: process.env.BAT_NODE_SSLCERT,
+    requestCert: false,
+    rejectUnauthorized: false
+  };
+  const server = https.createServer(options, app);
+  server.listen(process.env.BAT_NODE_PORT);
 })();
