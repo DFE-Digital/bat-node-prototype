@@ -11,10 +11,6 @@ import https = require("https");
 import path = require("path");
 
 (async () => {
-  const appInsights = require("applicationinsights");
-  appInsights.setup("6564b30c-474d-41d0-ac34-cfe11c611a04");
-  appInsights.start();
-
   const conn = await connection;
   try {
     // Run migrations on start up; only boot up if migrations succeed!
