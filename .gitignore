@@ -58,15 +58,6 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
+# local .env
 .env
 
-.idea/workspace.xml
-.idea/watcherTasks.xml
-access.log
-\.idea/markdown-navigator\.xml
-
-\.idea/markdown-navigator/
