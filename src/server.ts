@@ -117,5 +117,5 @@ const RedisStore = require("connect-redis")(session);
     rejectUnauthorized: false
   };
   const server = https.createServer(options, app);
-  server.listen(process.env.BAT_NODE_PORT);
+  server.listen(process.env.PORT);
 })();

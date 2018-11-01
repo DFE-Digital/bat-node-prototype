@@ -13,7 +13,7 @@ const getPassportStrategy = async logger => {
     {
       client,
       params: {
-        redirect_uri: `https://${process.env.BAT_NODE_HOST}:${process.env.BAT_NODE_PORT}/auth/cb`,
+        redirect_uri: `https://${process.env.BAT_NODE_HOST}:${process.env.PORT}/auth/cb`,
         scope: "openid profile email offline_access"
       }
     },
