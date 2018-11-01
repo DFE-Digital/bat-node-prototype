@@ -23,7 +23,7 @@
 {% from "warning-text/macro.njk"  import govukWarningText %}
 
 {% block head %}
-  <script src="/node_modules/govuk-frontend/all.css"></script>
+  <script src="/application.css"></script>
 {% endblock %}
 
 {% block header %}
@@ -37,7 +37,6 @@
 
 {% block bodyEnd %}
   {% block scripts %}
-    <script src="/node_modules/govuk-frontend/all.js"></script>
-    <script>window.GOVUKFrontend.initAll()</script>
+    <script src="/application.js"></script>
   {% endblock %}
 {% endblock %}

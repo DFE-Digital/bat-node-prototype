@@ -1,7 +1,8 @@
 import "reflect-metadata"; // this shim is required
 import { useExpressServer } from "routing-controllers";
 import connection from "./connection";
-
+import * as webpackMiddleware from "webpack-dev-middleware";
+import * as webpack from "webpack";
 const appInsights = require("applicationinsights");
 appInsights.setup("6564b30c-474d-41d0-ac34-cfe11c611a04");
 appInsights.start();
@@ -18,6 +19,7 @@ appInsights.start();
   const config = require("./infrastructure/config");
   const healthCheck = require("login.dfe.healthcheck");
   const { getErrorHandler } = require("login.dfe.express-error-handling");
+  const webpackConfig = require("../config/webpack.config.js");
 
   var dbMigrationPromise = connection.then(c =>
     // Run migrations on start up; only boot up if migrations succeed!
@@ -51,6 +53,8 @@ appInsights.start();
     );
 
     app.set("view engine", "html");
+
+    app.use(webpackMiddleware(webpack(webpackConfig)));
 
     // Middleware to serve static assets
     app.use("/public", express.static(path.join(__dirname, "/public")));
