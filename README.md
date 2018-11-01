@@ -2,8 +2,16 @@
 
 To run the project:
 
+Copy one of the `.env.*` files to `.env`, e.g
+
 ```bash
-npm i
+cp .env.development .env
+```
+
+Then:
+
+```bash
+npm install
 npm run dev
 ```
 
