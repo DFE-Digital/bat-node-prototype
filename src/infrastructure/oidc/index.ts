@@ -20,6 +20,7 @@ const getPassportStrategy = async logger => {
     async (tokenset, authUserInfo, done) => {
       try {
         const userInfo = await client.userinfo(tokenset.access_token);
+        userInfo.access_token = tokenset.access_token;
         done(null, userInfo);
       } catch (err) {
         logger.error(err);
