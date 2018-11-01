@@ -30,7 +30,12 @@ appInsights.start();
 
   dbMigrationPromise.then(() => {
     var app = express();
-    const appViews = path.join(__dirname, "../src/views");
+
+    const appViews = [
+      path.join(__dirname, "../node_modules/govuk-frontend/"),
+      path.join(__dirname, "../node_modules/govuk-frontend/components"),
+      path.join(__dirname, "../src/views")
+    ];
 
     nunjucks.configure(appViews, {
       autoescape: true,
@@ -44,7 +49,15 @@ appInsights.start();
         extended: true
       })
     );
+
     app.set("view engine", "html");
+
+    // Middleware to serve static assets
+    app.use("/public", express.static(path.join(__dirname, "/public")));
+    app.use("/assets", express.static(path.join(__dirname, "node_modules", "govuk-frontend", "assets")));
+
+    // Serve govuk-frontend in /public
+    app.use("../node_modules/govuk-frontend", express.static(path.join(__dirname, "../node_modules/govuk-frontend")));
 
     app.use(
       helmet({

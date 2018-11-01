@@ -28,6 +28,7 @@
     "@types/nunjucks": "^3.1.0",
     "applicationinsights": "^1.0.6",
     "express": "^4.16.4",
+    "govuk-frontend": "^2.2.0",
     "helmet": "^3.9.0",
     "lodash": "^4.17.10",
     "login.dfe.audit.winston-sequelize-transport": "git+https://github.com/DFE-Digital/login.dfe.audit.winston-sequelize-transport.git#v1.0",
