@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "concurrently --kill-others \"tsc -w\" \"nodemon dist/server.js\"",
+    "dev": "concurrently --kill-others \"gulp watch\" \"nodemon dist/server.js\"",
     "prestart": "gulp",
     "start": "node dist/server.js",
     "test": "./node_modules/.bin/jest"
