@@ -9,7 +9,7 @@
     "sourceMaps": true,
     "smartStep": true,
     "internalConsoleOptions": "openOnSessionStart",
-    "outFiles": ["${workspaceFolder}\\src\\**\\*.js"],
+      "outFiles": ["${workspaceFolder}\\dist\\**\\*.js"],
     "env": {
       "settings": "./config/settings.json"
     }
