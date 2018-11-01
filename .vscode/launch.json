@@ -1,19 +1,17 @@
 {
   "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug",
-      "program": "${workspaceFolder}\\src\\index.ts",
-      "preLaunchTask": "build",
-      "sourceMaps": true,
-      "smartStep": true,
-      "internalConsoleOptions": "openOnSessionStart",
-      "outFiles": ["${workspaceFolder}\\src\\**\\*.js"],
-      "env": {
-        "settings": "./config/settings.json"
-      }
+  "configurations": [{
+    "type": "node",
+    "request": "launch",
+    "name": "Debug",
+    "program": "${workspaceFolder}\\src\\server.ts",
+    "preLaunchTask": "build",
+    "sourceMaps": true,
+    "smartStep": true,
+    "internalConsoleOptions": "openOnSessionStart",
+    "outFiles": ["${workspaceFolder}\\src\\**\\*.js"],
+    "env": {
+      "settings": "./config/settings.json"
     }
-  ]
+  }]
 }

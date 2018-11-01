@@ -2,12 +2,12 @@
   "name": "bat-node-prototype",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "settings='./config/settings.json' concurrently --kill-others \"tsc -w\" \"nodemon dist/index.js\"",
-    "devwin": "set settings=config/settings.json&& concurrently --kill-others \"tsc -w\" \"nodemon dist/index.js\"",
+    "dev": "settings='./config/settings.json' concurrently --kill-others \"tsc -w\" \"nodemon dist/server.js\"",
+    "devwin": "set settings=config/settings.json&& concurrently --kill-others \"tsc -w\" \"nodemon dist/server.js\"",
     "postinstall": "tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/server.js",
     "test": "./node_modules/.bin/jest"
   },
   "engines": {

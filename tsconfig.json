@@ -2,9 +2,12 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "lib": ["es2015"],
+    "target": "es6",
     "sourceMap": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "allowJs": true,
     "outDir": "dist"
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*"]
 }
