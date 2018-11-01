@@ -5,17 +5,17 @@ import { useExpressServer } from "routing-controllers";
 import connection from "./connection";
 import express = require("express");
 import helmet = require("helmet");
-import * as webpackMiddleware from "webpack-dev-middleware";
-import * as webpack from "webpack";
+//import * as webpackMiddleware from "webpack-dev-middleware";
+//import * as webpack from "webpack";
 import bodyParser = require("body-parser");
 import nunjucks = require("nunjucks");
 import https = require("https");
 import path = require("path");
 
 (async () => {
+  //const webpackConfig = require("../config/webpack.config.js");
   const conn = await connection;
   try {
-  const webpackConfig = require("../config/webpack.config.js");
     // Run migrations on start up; only boot up if migrations succeed!
     conn.runMigrations({ transaction: true });
   } catch (e) {
@@ -24,11 +24,11 @@ import path = require("path");
 
   var app = express();
 
-    const appViews = [
-      path.join(__dirname, "../node_modules/govuk-frontend/"),
-      path.join(__dirname, "../node_modules/govuk-frontend/components"),
-      path.join(__dirname, "../src/views")
-    ];
+  const appViews = [
+    path.join(__dirname, "../node_modules/govuk-frontend/"),
+    path.join(__dirname, "../node_modules/govuk-frontend/components"),
+    path.join(__dirname, "../src/views")
+  ];
 
   nunjucks.configure(appViews, {
     autoescape: true,
@@ -45,14 +45,14 @@ import path = require("path");
 
   app.set("view engine", "html");
 
-    app.use(webpackMiddleware(webpack(webpackConfig)));
+  //app.use(webpackMiddleware(webpack(webpackConfig)));
 
-    // Middleware to serve static assets
-    app.use("/public", express.static(path.join(__dirname, "/public")));
-    app.use("/assets", express.static(path.join(__dirname, "node_modules", "govuk-frontend", "assets")));
+  // Middleware to serve static assets
+  app.use("/public", express.static(path.join(__dirname, "/public")));
+  app.use("/assets", express.static(path.join(__dirname, "node_modules", "govuk-frontend", "assets")));
 
-    // Serve govuk-frontend in /public
-    app.use("../node_modules/govuk-frontend", express.static(path.join(__dirname, "../node_modules/govuk-frontend")));
+  // Serve govuk-frontend in /public
+  app.use("../node_modules/govuk-frontend", express.static(path.join(__dirname, "../node_modules/govuk-frontend")));
 
   app.use(
     helmet({

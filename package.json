@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "concurrently --kill-others \"tsc -w\" \"nodemon dist/server.js\"",
-    "prestart": "tsc",
+    "prestart": "gulp",
     "start": "node dist/server.js",
     "test": "./node_modules/.bin/jest"
   },
@@ -33,6 +33,9 @@
     "css-loader": "^1.0.1",
     "express": "^4.16.4",
     "govuk-frontend": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.2",
+    "gulp-typescript": "^5.0.0-alpha.3",
     "helmet": "^3.9.0",
     "html-webpack-plugin": "^3.2.0",
     "lodash": "^4.17.10",
