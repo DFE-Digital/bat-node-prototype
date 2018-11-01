@@ -48,6 +48,7 @@ import { getPassportStrategy } from "./infrastructure/oidc";
   // Middleware to serve static assets
   app.use("/styles", express.static(path.join(__dirname, "styles")));
   app.use("/assets", express.static(path.resolve(__dirname, "../node_modules/govuk-frontend/assets")));
+  app.use("/node_modules/govuk-frontend", express.static(path.resolve(__dirname, "../node_modules/govuk-frontend")));
 
   app.use(
     helmet({
@@ -100,7 +101,7 @@ import { getPassportStrategy } from "./infrastructure/oidc";
     server.listen(process.env.BAT_NODE_PORT);
   } else {
     app.set("trust proxy", 1);
-    var port = process.env.PORT || 3000;
+    var port = process.env.PORT || 44364;
     app.listen(port);
   }
 })();
