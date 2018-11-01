@@ -9,8 +9,8 @@ import bodyParser = require("body-parser");
 import nunjucks = require("nunjucks");
 import https = require("https");
 import path = require("path");
-import session from "express-session";
-import passport from "passport";
+import session = require("express-session");
+import passport = require("passport");
 import { getPassportStrategy } from "./infrastructure/oidc";
 
 (async () => {
@@ -48,7 +48,7 @@ import { getPassportStrategy } from "./infrastructure/oidc";
     })
   );
 
-  passport.use("oidc", await getPassportStrategy(logger));
+  passport.use("oidc", await getPassportStrategy(console));
   passport.serializeUser((user, done) => {
     done(null, user);
   });
@@ -59,7 +59,7 @@ import { getPassportStrategy } from "./infrastructure/oidc";
     session({
       resave: true,
       saveUninitialized: true,
-      secret: config.hostingEnvironment.sessionSecret
+      secret: process.env.BAT_NODE_SESSION_SECRET
     })
   );
   app.use(passport.initialize());
