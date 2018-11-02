@@ -110,12 +110,18 @@ const RedisStore = require("connect-redis")(session);
 
   app.use(unauthorisedRequestHandler);
 
-  const options = {
-    key: process.env.BAT_NODE_SSLKEY,
-    cert: process.env.BAT_NODE_SSLCERT,
-    requestCert: false,
-    rejectUnauthorized: false
-  };
-  const server = https.createServer(options, app);
-  server.listen(process.env.PORT);
+  if (process.env.BAT_NODE_ENVIRONMENT === "dev") {
+    const options = {
+      key: process.env.BAT_NODE_SSLKEY,
+      cert: process.env.BAT_NODE_SSLCERT,
+      requestCert: false,
+      rejectUnauthorized: false
+    };
+    const server = https.createServer(options, app);
+    server.listen(process.env.PORT);
+  } else {
+    app.set("trust proxy", 1);
+    const port = process.env.PORT || 3000;
+    app.listen(port);
+  }
 })();
