@@ -2,11 +2,70 @@
 
 {% block content %}
 {% if user %}
-<p>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor voluptates sapiente quidem, tempora aspernatur
-  placeat aliquam soluta fugiat officiis consectetur nihil exercitationem facere laudantium magni iste eum, maiores,
-  voluptate accusamus
-</p>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
+    <form action="/sitedata" method="post" class="form">
+      {{ govukInput({
+        label: {
+          text: "Provider id"
+        },
+        id: "provider_id",
+        name: "provider_id"
+      }) }}
+      {{ govukInput({
+        label: {
+          text: "Location name"
+        },
+        id: "location_name",
+        name: "location_name"
+      }) }}
+      {{ govukInput({
+        label: {
+          text: "Address line 1"
+        },
+        id: "address1",
+        name: "address1"
+      }) }}
+      {{ govukInput({
+        label: {
+          text: "Address line 2"
+        },
+        id: "address2",
+        name: "address2"
+      }) }}
+      {{ govukInput({
+        label: {
+          text: "Town/City"
+        },
+        id: "address3",
+        name: "address3"
+      }) }}
+      {{ govukInput({
+        label: {
+          text: "County"
+        },
+        id: "address4",
+        name: "address4"
+      }) }}
+      {{ govukInput({
+        label: {
+          text: "Postcode"
+        },
+        id: "postcode",
+        name: "postcode"
+      }) }}
+      {{ govukInput({
+        label: {
+          text: "Code"
+        },
+        id: "code",
+        name: "code"
+      }) }}
+      <button class="govuk-button">Submit</button>
+    </form>
+  </div>
+</div>
 
 <p>
   Access token:
