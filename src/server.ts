@@ -23,7 +23,12 @@ import { getPassportStrategy } from "./infrastructure/oidc";
   }
 
   var app = express();
-  const appViews = path.join(__dirname, "../src/views");
+
+  const appViews = [
+    path.join(__dirname, "../node_modules/govuk-frontend/"),
+    path.join(__dirname, "../node_modules/govuk-frontend/components"),
+    path.join(__dirname, "../src/views")
+  ];
 
   nunjucks.configure(appViews, {
     autoescape: true,
@@ -37,7 +42,12 @@ import { getPassportStrategy } from "./infrastructure/oidc";
       extended: true
     })
   );
+
   app.set("view engine", "html");
+
+  // Middleware to serve static assets
+  app.use("/styles", express.static(path.join(__dirname, "styles")));
+  app.use("/public", express.static(path.resolve(__dirname, "../node_modules/govuk-frontend")));
 
   app.use(
     helmet({
@@ -90,7 +100,7 @@ import { getPassportStrategy } from "./infrastructure/oidc";
     server.listen(process.env.BAT_NODE_PORT);
   } else {
     app.set("trust proxy", 1);
-    var port = process.env.PORT || 3000;
+    var port = process.env.PORT || 44364;
     app.listen(port);
   }
 })();

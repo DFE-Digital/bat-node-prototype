@@ -17,4 +17,10 @@ npm install
 npm run dev
 ```
 
+Open the app in your browser:
+
+```bash
+https://localhost:44364
+```
+
 The project is linted using `prettier`.

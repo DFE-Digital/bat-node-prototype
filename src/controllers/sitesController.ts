@@ -1,7 +1,6 @@
 import { Get, JsonController, QueryParam } from "routing-controllers";
 import Site from "./../entity/site";
 import connection from "./../connection";
-import { connect } from "net";
 
 @JsonController()
 export default class SitesController {
