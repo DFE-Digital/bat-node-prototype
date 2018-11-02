@@ -98,8 +98,6 @@ import unauthorisedRequestHandler from "./infrastructure/unauthorisedRequestHand
 
   app.use(unauthorisedRequestHandler);
 
-  if (process.env.NODE_ENV !== "production") require("dotenv").config();
-
   if (process.env.BAT_NODE_ENVIRONMENT === "dev") {
     const options = {
       key: process.env.BAT_NODE_SSLKEY,
