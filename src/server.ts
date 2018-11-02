@@ -13,6 +13,7 @@ import session = require("express-session");
 import passport = require("passport");
 import { getPassportStrategy } from "./infrastructure/oidc";
 import unauthorisedRequestHandler from "./infrastructure/unauthorisedRequestHandler";
+const RedisStore = require("connect-redis")(session);
 
 (async () => {
   const conn = await connection;
@@ -60,11 +61,25 @@ import unauthorisedRequestHandler from "./infrastructure/unauthorisedRequestHand
   );
 
   app.use(
-    session({
-      resave: true,
-      saveUninitialized: true,
-      secret: process.env.BAT_NODE_SESSION_SECRET
-    })
+    session(
+      Object.assign(
+        {
+          saveUninitialized: true,
+          secret: process.env.BAT_NODE_SESSION_SECRET
+        },
+        process.env.BAT_NODE_ENVIRONMENT === "dev"
+          ? {
+              resave: true
+            }
+          : {
+              resave: false,
+              store: new RedisStore({
+                port: process.env.BAT_NODE_REDIS_PORT,
+                host: process.env.BAT_NODE_REDIS_HOST
+              })
+            }
+      )
+    )
   );
 
   passport.use("oidc", await getPassportStrategy(console));
@@ -103,10 +118,10 @@ import unauthorisedRequestHandler from "./infrastructure/unauthorisedRequestHand
       rejectUnauthorized: false
     };
     const server = https.createServer(options, app);
-    server.listen(process.env.BAT_NODE_PORT);
+    server.listen(process.env.PORT || 44364);
   } else {
     app.set("trust proxy", 1);
-    var port = process.env.PORT || 44364;
+    const port = process.env.PORT || 44364;
     app.listen(port);
   }
 })();
