@@ -12,6 +12,15 @@
   Access token:
   <code style="word-break: break-all">{{ user.access_token }}</code>
 </p>
+
+<p>
+  Providers:
+</p>
+<ul>
+  {%for provider in providers %}
+    <li>{{provider.name}} [{{provider.providerCode}}]</li>
+  {%endfor%}
+</ul>
 {% endif %}
 
 {% if not user %}
