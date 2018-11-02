@@ -118,10 +118,10 @@ const RedisStore = require("connect-redis")(session);
       rejectUnauthorized: false
     };
     const server = https.createServer(options, app);
-    server.listen(process.env.PORT);
+    server.listen(process.env.PORT || 44364);
   } else {
     app.set("trust proxy", 1);
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT || 44364;
     app.listen(port);
   }
 })();
