@@ -12,7 +12,7 @@ export default class SitesController {
 
   @Post("/sitedata")
   @Render("siteSuccess")
-  //@Authorized()
+  @Authorized()
   async save(@Body() site: Site) {
     const repository = (await connection).getRepository(Site);
     return await repository.save(site);
