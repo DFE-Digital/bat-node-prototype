@@ -1,27 +1,23 @@
-import { Get, JsonController, QueryParam } from "routing-controllers";
+import { Get, JsonController, QueryParam, Post, Body, Render, Authorized } from "routing-controllers";
 import Site from "./../entity/site";
 import connection from "./../connection";
 
 @JsonController()
 export default class SitesController {
-  private siteRepository: Repository<Site>;
-
-  constructor() {
-    this.siteRepository = getConnectionManager()
-      .get()
-      .getRepository(Site);
-  }
-
   @Get("/sitedata")
   async showAll(): Promise<Site[]> {
     const repository = (await connection).getRepository(Site);
     return await repository.find();
   }
 
-  @HttpPost("/sitedata")
-  // save(@EntityFromBody() site: Site) {
-  //   return this.siteRepository.save(site);
-  // }
+  @Post("/sitedata")
+  @Render("siteSuccess")
+  //@Authorized()
+  async save(@Body() site: Site) {
+    const repository = (await connection).getRepository(Site);
+    return await repository.save(site);
+  }
+
   @Get("/sitedata/search")
   async search(@QueryParam("q") query: string): Promise<Site[]> {
     const repository = (await connection).getRepository(Site);

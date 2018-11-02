@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<p>
+  Saved the following:
+</p>
+
+<dl>
+  <dt>Id</dt>
+  <dd>{{id}}</dt>
+
+  <dt>Name</dt>
+  <dd>{{locationName}}</dt>
+  
+  <dt>Address</dt>
+  <dd>
+    {{address1}}<br>
+    {{address2}}<br>
+    {{address3}}<br>
+    {{address4}}<br>
+    {{postcode}}  
+  </dt>
+</dl>
+{% endblock %}
