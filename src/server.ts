@@ -10,7 +10,6 @@ import nunjucks = require("nunjucks");
 import https = require("https");
 import path = require("path");
 import session = require("express-session");
-import csrf = require("csurf");
 import passport = require("passport");
 import { getPassportStrategy } from "./infrastructure/oidc";
 import unauthorisedRequestHandler from "./infrastructure/unauthorisedRequestHandler";
@@ -59,8 +58,6 @@ import unauthorisedRequestHandler from "./infrastructure/unauthorisedRequestHand
       }
     })
   );
-
-  app.use(csrf());
 
   app.use(
     session({
