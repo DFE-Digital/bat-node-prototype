@@ -13,6 +13,7 @@ import session = require("express-session");
 import csrf = require("csurf");
 import passport = require("passport");
 import { getPassportStrategy } from "./infrastructure/oidc";
+import unauthorisedRequestHandler from "./infrastructure/unauthorisedRequestHandler";
 
 (async () => {
   const conn = await connection;
@@ -61,13 +62,6 @@ import { getPassportStrategy } from "./infrastructure/oidc";
 
   app.use(csrf());
 
-  passport.use("oidc", await getPassportStrategy(console));
-  passport.serializeUser((user, done) => {
-    done(null, user);
-  });
-  passport.deserializeUser((user, done) => {
-    done(null, user);
-  });
   app.use(
     session({
       resave: true,
@@ -75,6 +69,14 @@ import { getPassportStrategy } from "./infrastructure/oidc";
       secret: process.env.BAT_NODE_SESSION_SECRET
     })
   );
+
+  passport.use("oidc", await getPassportStrategy(console));
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+  passport.deserializeUser((user, done) => {
+    done(null, user);
+  });
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -89,8 +91,12 @@ import { getPassportStrategy } from "./infrastructure/oidc";
   });
 
   useExpressServer(app, {
-    controllers: [__dirname + "/controllers/*.js"]
+    controllers: [__dirname + "/controllers/*.js"],
+    authorizationChecker: action => !!action.request.user,
+    defaultErrorHandler: false
   });
+
+  app.use(unauthorisedRequestHandler);
 
   if (process.env.BAT_NODE_ENVIRONMENT === "dev") {
     const options = {
