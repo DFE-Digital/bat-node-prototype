@@ -28,7 +28,7 @@ export function makeRouter<T extends Controller>(makeController: () => T): Route
     innerGet.bind(expressRouter)(path, (req, res, next) => {
       const c = makeController();
       c.setContext(req, res, next);
-      action(c).bind(c)();
+      return action(c).bind(c)();
     });
     return this;
   };
@@ -37,7 +37,7 @@ export function makeRouter<T extends Controller>(makeController: () => T): Route
     innerPost.bind(expressRouter)(path, (req, res, next) => {
       const c = makeController();
       c.setContext(req, res, next);
-      action(c).bind(c)();
+      return action(c).bind(c)();
     });
     return this;
   };

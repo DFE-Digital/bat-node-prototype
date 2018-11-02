@@ -12,8 +12,13 @@ export class AuthController extends Controller {
     super();
     this.passport = passport;
   }
+
   async login() {
-    await this.passport.authenticate("oidc", { successRedirect: "/", failureRedirect: "/auth/login" });
+    await this.passport.authenticate("oidc", { successRedirect: "/", failureRedirect: "/auth/login" })(
+      this.req,
+      this.res,
+      this.next
+    );
   }
 
   async logout() {

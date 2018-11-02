@@ -84,13 +84,7 @@ import { makeRouter } from "./infrastructure/controller";
 
   app.use("/", homeRoutes);
   app.use("/sitedata", siteRoutes);
-  app.use(
-    "/auth",
-    makeRouter(() => new AuthController(passport))
-      .get("/login", c => c.login)
-      .get("/cb", c => c.login)
-      .get("/logout", c => c.logout)
-  );
+  app.use("/auth", authRoutes);
 
   app.use(unauthorisedRequestHandler);
 
