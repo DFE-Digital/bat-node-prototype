@@ -10,6 +10,7 @@ import nunjucks = require("nunjucks");
 import https = require("https");
 import path = require("path");
 import session = require("express-session");
+import csrf = require("csurf");
 import passport = require("passport");
 import { getPassportStrategy } from "./infrastructure/oidc";
 
@@ -57,6 +58,8 @@ import { getPassportStrategy } from "./infrastructure/oidc";
       }
     })
   );
+
+  app.use(csrf());
 
   passport.use("oidc", await getPassportStrategy(console));
   passport.serializeUser((user, done) => {
