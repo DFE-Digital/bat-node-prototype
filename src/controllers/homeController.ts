@@ -8,7 +8,12 @@ export default class HomeController {
   @Authorized()
   async getAll(@Req() req) {
     const user = req.user;
-    const providers = user ? await new ManageApiService(req.user.access_token).getProviders() : null;
+    let providers = [];
+    try {
+      providers = user ? await new ManageApiService(req.user.access_token).getProviders() : null;
+    } catch (err) {
+      console.log("Error fetching providers:", err);
+    }
     return {
       displayName: user ? `${user["given_name"]} ${user["family_name"]}` : "",
       user,
