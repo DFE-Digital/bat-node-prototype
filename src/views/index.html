@@ -1,90 +1,92 @@
 {% extends "layout.html" %}
 
 {% block content %}
-{% if user %}
+  {% if user %}
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-third">
-    <form action="/sitedata" method="post" class="form">
-      {{ govukInput({
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+        <form action="/" method="post" class="form">
+          <input type="hidden" name="_csrf" value="{{csrf}}">
+          {{ govukInput({
         label: {
           text: "Provider id"
         },
         id: "providerId",
         name: "providerId"
       }) }}
-      {{ govukInput({
+          {{ govukInput({
         label: {
           text: "Location name"
         },
         id: "locationName",
         name: "locationName"
       }) }}
-      {{ govukInput({
+          {{ govukInput({
         label: {
           text: "Address line 1"
         },
         id: "address1",
         name: "address1"
       }) }}
-      {{ govukInput({
+          {{ govukInput({
         label: {
           text: "Address line 2"
         },
         id: "address2",
         name: "address2"
       }) }}
-      {{ govukInput({
+          {{ govukInput({
         label: {
           text: "Town/City"
         },
         id: "address3",
         name: "address3"
       }) }}
-      {{ govukInput({
+          {{ govukInput({
         label: {
           text: "County"
         },
         id: "address4",
         name: "address4"
       }) }}
-      {{ govukInput({
+          {{ govukInput({
         label: {
           text: "Postcode"
         },
         id: "postcode",
         name: "postcode"
       }) }}
-      {{ govukInput({
+          {{ govukInput({
         label: {
           text: "Code"
         },
         id: "code",
         name: "code"
       }) }}
-      <button class="govuk-button">Submit</button>
-    </form>
-  </div>
-</div>
+          <button class="govuk-button">Submit</button>
+        </form>
+      </div>
+    </div>
 
-<p>
-  Access token:
-  <code style="word-break: break-all">{{ user.access_token }}</code>
-</p>
+    <p>
+      Access token:
+      <code style="word-break: break-all">{{ user.access_token }}</code>
+    </p>
 
-<p>
-  Providers:
-</p>
-<ul>
-  {%for provider in providers %}
-    <li>{{provider.name}} [{{provider.providerCode}}]</li>
-  {%endfor%}
-</ul>
-{% endif %}
+    <p>
+      Providers:
+    </p>
+    <ul>
+      {%for provider in providers %}
+        <li>{{provider.name}}
+          [{{provider.providerCode}}]</li>
+        {%endfor%}
+      </ul>
+    {% endif %}
 
-{% if not user %}
-<p>
-  <a href="/auth/login">Sign in using DFE Signin</a>
-</p>
-{% endif %}
-{% endblock %}
+    {% if not user %}
+      <p>
+        <a href="/auth/login">Sign in using DFE Signin</a>
+      </p>
+    {% endif %}
+  {% endblock %}
