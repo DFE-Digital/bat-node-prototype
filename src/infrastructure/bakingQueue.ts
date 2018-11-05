@@ -1,9 +1,6 @@
 import Queue = require("bull");
 
-const bakingQueue = new Queue(
-  "baking cookies",
-  `redis://${process.env.BAT_NODE_REDIS_HOST}:${process.env.BAT_NODE_REDIS_PORT}`
-);
+const bakingQueue = new Queue("baking cookies", process.env.REDIS_URL);
 
 bakingQueue.process(({ data }, done) => {
   console.log("received baking job", data);
