@@ -18,6 +18,7 @@ import homeRoutes from "./routes/homeRoutes";
 import siteRoutes from "./routes/sitesRoutes";
 import { AuthController } from "./routes/authRoutes";
 import { makeRouter } from "./infrastructure/controller";
+import bakingQueue from "./infrastructure/bakingQueue";
 
 (async () => {
   const conn = await connection;
@@ -107,6 +108,11 @@ import { makeRouter } from "./infrastructure/controller";
       .get("/cb", c => c.cb)
       .get("/logout", c => c.logout)
   );
+
+  app.get("/bake-cookie", (req, res) => {
+    bakingQueue.add({ foo: "bar" });
+    res.redirect("/");
+  });
 
   app.use(unauthorisedRequestHandler);
 
