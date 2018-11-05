@@ -12,56 +12,64 @@
           text: "Provider id"
         },
         id: "providerId",
-        name: "providerId"
+        name: "providerId",
+        value: site.providerId
       }) }}
           {{ govukInput({
         label: {
           text: "Location name"
         },
         id: "locationName",
-        name: "locationName"
+        name: "locationName",        
+        value: site.locationName
       }) }}
           {{ govukInput({
         label: {
           text: "Address line 1"
         },
         id: "address1",
-        name: "address1"
+        name: "address1",
+        value: site.address1
       }) }}
           {{ govukInput({
         label: {
           text: "Address line 2"
         },
         id: "address2",
-        name: "address2"
+        name: "address2",
+        value: site.address2
       }) }}
           {{ govukInput({
         label: {
           text: "Town/City"
         },
         id: "address3",
-        name: "address3"
+        name: "address3",
+        value: site.address3
       }) }}
           {{ govukInput({
         label: {
           text: "County"
         },
         id: "address4",
-        name: "address4"
+        name: "address4",
+        value: site.address4
       }) }}
           {{ govukInput({
         label: {
           text: "Postcode"
         },
         id: "postcode",
-        name: "postcode"
+        name: "postcode",
+        value: site.postcode
       }) }}
           {{ govukInput({
         label: {
           text: "Code"
         },
         id: "code",
-        name: "code"
+        name: "code",
+        value: site.code
       }) }}
           <button class="govuk-button">Submit</button>
         </form>

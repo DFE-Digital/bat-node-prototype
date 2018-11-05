@@ -26,6 +26,7 @@
     "@types/node": "^10.12.1",
     "@types/nunjucks": "^3.1.0",
     "axios": "^0.18.0",
+    "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
     "connect-redis": "^3.4.0",
     "csurf": "^1.9.0",

@@ -2,6 +2,7 @@ import Site from "../entity/site";
 import { validate, ValidationError } from "class-validator";
 import connection from "../infrastructure/connection";
 import { makeRouter, Controller } from "../infrastructure/controller";
+import { plainToClass } from "class-transformer";
 
 export default makeRouter(() => new HomeController())
   .get("/", c => c.show)
@@ -10,9 +11,9 @@ export default makeRouter(() => new HomeController())
 
 export class HomeController extends Controller {
   async show(site: Site = new Site(), errors?: ValidationError[]) {
+    site = site || new Site();
     const user = this.req.user;
     const csrf = this.req.csrfToken();
-    console.log("csrf token", this.req.csrfToken());
 
     const providers = [];
     //user ? await new ManageApiService(user.access_token).getProviders() : null;
@@ -20,13 +21,14 @@ export class HomeController extends Controller {
       displayName: user ? `${user["given_name"]} ${user["family_name"]}` : "",
       user,
       providers,
-      csrf
+      csrf,
+      site
     });
   }
 
   async submit(site?: Site) {
     site = site || (this.req.body as Site);
-    const errors = await validate(site);
+    const errors = await validate(plainToClass(Site, site));
     if (errors && errors.length) {
       this.show(site, errors);
     } else {

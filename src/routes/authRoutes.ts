@@ -18,13 +18,11 @@ export class AuthController extends Controller {
   }
 
   async cb() {
-    console.log("before cb");
     await this.passport.authenticate("oidc", { successRedirect: "/", failureRedirect: "/auth/login" })(
       this.req,
       this.res,
       this.next
     );
-    console.log("after cb");
   }
 
   async logout() {

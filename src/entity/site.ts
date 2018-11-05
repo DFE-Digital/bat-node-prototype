@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Length } from "class-validator";
 
 @Entity()
 export default class Site {
@@ -8,6 +9,7 @@ export default class Site {
   @Column({ name: "provider_id" })
   providerId: number;
 
+  @Length(1, 50)
   @Column({ name: "location_name" })
   locationName: string;
 
