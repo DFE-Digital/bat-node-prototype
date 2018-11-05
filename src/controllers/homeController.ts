@@ -8,6 +8,7 @@ export default class HomeController {
   @Authorized()
   async getAll(@Req() req) {
     const user = req.user;
+    const csrf = req.csrfToken();
     let providers = [];
     try {
       providers = user ? await new ManageApiService(req.user.access_token).getProviders() : null;
@@ -17,7 +18,8 @@ export default class HomeController {
     return {
       displayName: user ? `${user["given_name"]} ${user["family_name"]}` : "",
       user,
-      providers
+      providers,
+      csrf
     };
   }
 }
