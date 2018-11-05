@@ -9,9 +9,11 @@ import nunjucks = require("nunjucks");
 import https = require("https");
 import path = require("path");
 import session = require("express-session");
+import csrf = require("csurf");
 import passport = require("passport");
 import { getPassportStrategy } from "./infrastructure/oidc";
 import unauthorisedRequestHandler from "./infrastructure/unauthorisedRequestHandler";
+const RedisStore = require("connect-redis")(session);
 import homeRoutes from "./routes/homeRoutes";
 import siteRoutes from "./routes/sitesRoutes";
 import { AuthController } from "./routes/authRoutes";
@@ -63,14 +65,28 @@ import { makeRouter } from "./infrastructure/controller";
   );
 
   app.use(
-    session({
-      resave: true,
-      saveUninitialized: true,
-      secret: process.env.BAT_NODE_SESSION_SECRET
-    })
+    session(
+      Object.assign(
+        {
+          saveUninitialized: true,
+          secret: process.env.BAT_NODE_SESSION_SECRET
+        },
+        process.env.BAT_NODE_ENVIRONMENT === "dev"
+          ? {
+              resave: true
+            }
+          : {
+              resave: false,
+              store: new RedisStore({
+                port: process.env.BAT_NODE_REDIS_PORT,
+                host: process.env.BAT_NODE_REDIS_HOST
+              })
+            }
+      )
+    )
   );
 
-  //app.use(csurf());
+  app.use(csrf());
 
   passport.use("oidc", await getPassportStrategy(console));
   passport.serializeUser((user, done) => {
@@ -102,10 +118,10 @@ import { makeRouter } from "./infrastructure/controller";
       rejectUnauthorized: false
     };
     const server = https.createServer(options, app);
-    server.listen(process.env.BAT_NODE_PORT);
+    server.listen(process.env.PORT || 44364);
   } else {
     app.set("trust proxy", 1);
-    var port = process.env.PORT || 44364;
+    const port = process.env.PORT || 44364;
     app.listen(port);
   }
 })();
