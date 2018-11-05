@@ -3,6 +3,7 @@ import { validate, ValidationError } from "class-validator";
 import connection from "../infrastructure/connection";
 import { makeRouter, Controller } from "../infrastructure/controller";
 import { plainToClass } from "class-transformer";
+import bakingQueue from "../infrastructure/bakingQueue";
 
 export default makeRouter(() => new HomeController())
   .get("/", c => c.show)
@@ -15,6 +16,17 @@ export class HomeController extends Controller {
     const user = this.req.user;
     const csrf = this.req.csrfToken();
 
+    let bakesCompleted = 0;
+    let cookiesBaking = [];
+    let cookiesWaiting = [];
+    try {
+      bakesCompleted = await bakingQueue.getCompletedCount();
+      cookiesBaking = (await bakingQueue.getActive()).map((job: any) => job.timestamp);
+      cookiesWaiting = (await bakingQueue.getWaiting()).map((job: any) => job.timestamp);
+    } catch (err) {
+      console.log("Could not fetch queue:", err);
+    }
+
     const providers = [];
     //user ? await new ManageApiService(user.access_token).getProviders() : null;
     this.res.render("index", {
@@ -22,7 +34,10 @@ export class HomeController extends Controller {
       user,
       providers,
       csrf,
-      site
+      site,
+      bakesCompleted,
+      cookiesBaking,
+      cookiesWaiting
     });
   }
 

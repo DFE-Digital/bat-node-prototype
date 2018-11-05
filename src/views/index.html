@@ -20,7 +20,7 @@
           text: "Location name"
         },
         id: "locationName",
-        name: "locationName",        
+        name: "locationName",
         value: site.locationName
       }) }}
           {{ govukInput({
@@ -79,6 +79,32 @@
     <p>
       Access token:
       <code style="word-break: break-all">{{ user.access_token }}</code>
+    </p>
+    <p>
+      <h2 class="govuk-heading-m">Cookie baking zone, skilled bakers only</h2>
+
+      <p>
+        <a class="govuk-link" href="/bake-cookie">Bake a cookie</a><br />
+        <p>
+          Cookies take 30 seconds to bake. You can queue multiple cookies.
+        </p>
+      </p>
+
+      <h3 class="govuk-heading-s">Finished bakes: {{ bakesCompleted }}</h3>
+
+      <h3 class="govuk-heading-s">Cookies in the oven:</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        {% for cookie in cookiesBaking %}
+        <li>{{ cookie }}</li>
+        {% endfor %}
+      </ul>
+
+      <h3 class="govuk-heading-s">Cookies waiting to bake:</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        {% for cookie in cookiesWaiting %}
+        <li>{{ cookie }}</li>
+        {% endfor %}
+      </ul>
     </p>
 
     <p>
