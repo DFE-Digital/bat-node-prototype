@@ -14,7 +14,7 @@ import { getPassportStrategy } from "./infrastructure/oidc";
 import unauthorisedRequestHandler from "./infrastructure/unauthorisedRequestHandler";
 import homeRoutes from "./routes/homeRoutes";
 import siteRoutes from "./routes/sitesRoutes";
-import authRoutes, { AuthController } from "./routes/authRoutes";
+import { AuthController } from "./routes/authRoutes";
 import { makeRouter } from "./infrastructure/controller";
 
 (async () => {
@@ -84,7 +84,13 @@ import { makeRouter } from "./infrastructure/controller";
 
   app.use("/", homeRoutes);
   app.use("/sitedata", siteRoutes);
-  app.use("/auth", authRoutes);
+  app.use(
+    "/auth",
+    makeRouter(() => new AuthController(passport))
+      .get("/login", c => c.login)
+      .get("/cb", c => c.cb)
+      .get("/logout", c => c.logout)
+  );
 
   app.use(unauthorisedRequestHandler);
 

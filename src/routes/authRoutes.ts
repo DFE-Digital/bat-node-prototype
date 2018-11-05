@@ -1,24 +1,30 @@
 import { makeRouter, Controller } from "../infrastructure/controller";
-import passport = require("passport");
+import pp = require("passport");
 
-export default makeRouter(() => new AuthController(passport))
-  .get("/login", c => c.login)
-  .get("/cb", c => c.login)
-  .get("/logout", c => c.logout);
+// export default makeRouter(() => new AuthController(passport))
+//   .get("/login", c => c.login)
+//   .get("/cb", c => c.cb)
+//   .get("/logout", c => c.logout);
 
 export class AuthController extends Controller {
-  private passport: passport.PassportStatic;
-  constructor(passport: passport.PassportStatic) {
+  private passport: pp.PassportStatic;
+  constructor(passport: pp.PassportStatic) {
     super();
     this.passport = passport;
   }
 
   async login() {
+    await this.passport.authenticate("oidc")(this.req, this.res, this.next);
+  }
+
+  async cb() {
+    console.log("before cb");
     await this.passport.authenticate("oidc", { successRedirect: "/", failureRedirect: "/auth/login" })(
       this.req,
       this.res,
       this.next
     );
+    console.log("after cb");
   }
 
   async logout() {
