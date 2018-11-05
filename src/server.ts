@@ -1,8 +1,7 @@
 import "reflect-metadata"; // this shim is required
 import "dotenv";
 
-import { useExpressServer } from "routing-controllers";
-import connection from "./connection";
+import connection from "./infrastructure/connection";
 import express = require("express");
 import helmet = require("helmet");
 import bodyParser = require("body-parser");
@@ -15,6 +14,10 @@ import passport = require("passport");
 import { getPassportStrategy } from "./infrastructure/oidc";
 import unauthorisedRequestHandler from "./infrastructure/unauthorisedRequestHandler";
 const RedisStore = require("connect-redis")(session);
+import homeRoutes from "./routes/homeRoutes";
+import siteRoutes from "./routes/sitesRoutes";
+import { AuthController } from "./routes/authRoutes";
+import { makeRouter } from "./infrastructure/controller";
 
 (async () => {
   const conn = await connection;
@@ -95,21 +98,15 @@ const RedisStore = require("connect-redis")(session);
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // TODO: Figure out how to translate this into routing-controller.
-  app.get("/auth/login", passport.authenticate("oidc"));
-  app.get("/auth/cb", passport.authenticate("oidc", { successRedirect: "/", failureRedirect: "/auth/login" }));
-  app.get("/auth/logout", (req, res) => {
-    req.logout();
-    req.session.destroy(() => {
-      res.redirect("/");
-    });
-  });
-
-  useExpressServer(app, {
-    controllers: [__dirname + "/controllers/*.js"],
-    authorizationChecker: action => !!action.request.user,
-    defaultErrorHandler: false
-  });
+  app.use("/", homeRoutes);
+  app.use("/sitedata", siteRoutes);
+  app.use(
+    "/auth",
+    makeRouter(() => new AuthController(passport))
+      .get("/login", c => c.login)
+      .get("/cb", c => c.cb)
+      .get("/logout", c => c.logout)
+  );
 
   app.use(unauthorisedRequestHandler);
 
