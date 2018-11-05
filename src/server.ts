@@ -20,6 +20,9 @@ import { AuthController } from "./routes/authRoutes";
 import { makeRouter } from "./infrastructure/controller";
 
 (async () => {
+  // Run before other code to make sure variables from .env are available
+  dotenv.config();
+
   const conn = await connection;
   try {
     // Run migrations on start up; only boot up if migrations succeed!

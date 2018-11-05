@@ -1,5 +1,8 @@
 const DefaultNamingStrategy = require("typeorm").DefaultNamingStrategy;
 const snakeCase = require("typeorm/util/StringUtils").snakeCase;
+const PostgressConnectionStringParser = require("pg-connection-string");
+
+const connectionOptions = PostgressConnectionStringParser.parse(process.env.DATABASE_URL);
 
 const namingStrategy = new DefaultNamingStrategy();
 
@@ -34,10 +37,10 @@ namingStrategy.classTableInheritanceParentColumnName = (parentTableName, parentT
 module.exports = {
   type: "postgres",
   name: "default",
-  host: "localhost",
-  username: "postgres",
-  password: "",
-  database: "bat_node_prototype",
+  host: connectionOptions.host || "localhost",
+  username: connectionOptions.user || "postgres",
+  password: connectionOptions.password || "",
+  database: connectionOptions.database || "bat_node_prototype",
   entities: ["dist/entity/*.js"],
   migrationsTableName: "migration_table",
   migrations: ["dist/migrations/*.js"],
