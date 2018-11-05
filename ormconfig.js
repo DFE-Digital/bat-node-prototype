@@ -33,11 +33,7 @@ namingStrategy.classTableInheritanceParentColumnName = (parentTableName, parentT
 
 module.exports = {
   type: "postgres",
-  name: "default",
-  host: "localhost",
-  username: "postgres",
-  password: "",
-  database: "bat_node_prototype",
+  url: process.env.DATABASE_URL,
   entities: ["dist/entity/*.js"],
   migrationsTableName: "migration_table",
   migrations: ["dist/migrations/*.js"],
